@@ -9,7 +9,7 @@ import {
 	getCookie,
 } from "../../functions/gridFunctions";
 
-const GameGrid = ({ rows, columns }) => {
+const GameGrid = ({ rows, columns, theme }) => {
 	const {
 		currentGuess,
 		setCurrentGuess,
@@ -84,7 +84,12 @@ const GameGrid = ({ rows, columns }) => {
 		<>
 			<div className={styles.Wrapper}>
 				{Array.from(Array(rows)).map((e, i) => (
-					<Line key={"line" + i} rowNumber={i} columns={columns} />
+					<Line
+						key={"line" + i}
+						rowNumber={i}
+						columns={columns}
+						theme={theme}
+					/>
 				))}
 			</div>
 		</>

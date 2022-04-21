@@ -1,6 +1,6 @@
 $tile-blank: black;
-$tile-filled: grey;
-$tile-notpresent: grey;
+$tile-filled: rgb(75, 75, 75);
+$tile-notpresent: rgb(53, 53, 53);
 $tile-present: #b59f3b;
 $tile-correct: #538d4e;
 
@@ -20,7 +20,7 @@ $delay-modifier: 0.2s;
 	justify-content: center;
 	align-items: center;
 
-	color: white;
+	border: 2px solid gray;
 
 	min-width: 7vh;
 	min-height: 7vh;
@@ -52,6 +52,7 @@ $delay-modifier: 0.2s;
 	}
 	&__Filled {
 		@extend .Tile__Default;
+		color: white;
 		background-color: $tile-filled;
 		animation: pulse $pulse-time linear;
 		@keyframes pulse {
@@ -68,6 +69,7 @@ $delay-modifier: 0.2s;
 	}
 	&__NotPresent {
 		@extend .Tile;
+		color: white;
 		transform: scaleY(-1);
 		-webkit-transform: scaleY(-1);
 		background-color: $tile-notpresent;

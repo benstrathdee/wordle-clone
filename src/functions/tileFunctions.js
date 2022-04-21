@@ -65,3 +65,15 @@ export const getLetterClass = (tileNumber, setting, styles) => {
 	);
 	return classList.join(" ");
 };
+
+export const getTileTheme = (theme) => {
+	const bgCol = theme === "light" ? "white" : "black";
+	const letterCol = theme === "light" ? "black" : "black";
+	const blankTileCol = theme === "light" ? "white" : "darkgrey";
+
+	const tileTheme = {
+		backgroundColor: bgCol,
+		color: letterCol,
+	};
+	return tileTheme;
+};
