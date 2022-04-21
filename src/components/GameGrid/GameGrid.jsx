@@ -82,7 +82,6 @@ const GameGrid = ({ rows, columns }) => {
 
 	return (
 		<>
-			<h1>Definitely NOT Wordle</h1>
 			<div className={styles.Wrapper}>
 				{Array.from(Array(rows)).map((e, i) => (
 					<Line key={"line" + i} rowNumber={i} columns={columns} />
