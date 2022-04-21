@@ -1,5 +1,5 @@
 import { createContext, useState } from "react";
-import { getCookie } from "../../functions/gridFunctions";
+import { getCookie } from "../../functions/utilities";
 
 export const GuessContext = createContext();
 
