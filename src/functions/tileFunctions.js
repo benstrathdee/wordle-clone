@@ -1,38 +1,73 @@
-export const getTileClass = (tileNumber, letter, setting, styles) => {
+export const getTileClass = (tileNumber, letter, setting, styles, theme) => {
 	// sets the appropriate classes for tiles
 	const classList = [];
 	// resonsible for transition delays
-	switch (tileNumber) {
-		case 0:
-			classList.push(styles.Tile_DelayZero);
-			break;
-		case 1:
-			classList.push(styles.Tile_DelayOne);
-			break;
-		case 2:
-			classList.push(styles.Tile_DelayTwo);
-			break;
-		case 3:
-			classList.push(styles.Tile_DelayThree);
-			break;
-		case 4:
-			classList.push(styles.Tile_DelayFour);
-			break;
-		default:
-			console.log("Something may have broken.");
+	if (theme === "light") {
+		switch (tileNumber) {
+			case 0:
+				classList.push(styles.TileLight_DelayZero);
+				break;
+			case 1:
+				classList.push(styles.TileLight_DelayOne);
+				break;
+			case 2:
+				classList.push(styles.TileLight_DelayTwo);
+				break;
+			case 3:
+				classList.push(styles.TileLight_DelayThree);
+				break;
+			case 4:
+				classList.push(styles.TileLight_DelayFour);
+				break;
+			default:
+				console.log("Something may have broken.");
+		}
+		// responsible for animations/colours
+		classList.push(
+			setting === "default" && letter === ""
+				? styles.TileLight__Default
+				: setting === "default"
+				? styles.TileLight__Filled
+				: setting === "notPresent"
+				? styles.TileLight__NotPresent
+				: setting === "present"
+				? styles.TileLight__Present
+				: styles.TileLight__Correct
+		);
+	} else if (theme === "dark") {
+		switch (tileNumber) {
+			case 0:
+				classList.push(styles.TileDark_DelayZero);
+				break;
+			case 1:
+				classList.push(styles.TileDark_DelayOne);
+				break;
+			case 2:
+				classList.push(styles.TileDark_DelayTwo);
+				break;
+			case 3:
+				classList.push(styles.TileDark_DelayThree);
+				break;
+			case 4:
+				classList.push(styles.TileDark_DelayFour);
+				break;
+			default:
+				console.log("Something may have broken.");
+		}
+		// responsible for animations/colours
+		classList.push(
+			setting === "default" && letter === ""
+				? styles.TileDark__Default
+				: setting === "default"
+				? styles.TileDark__Filled
+				: setting === "notPresent"
+				? styles.TileDark__NotPresent
+				: setting === "present"
+				? styles.TileDark__Present
+				: styles.TileDark__Correct
+		);
 	}
-	// responsible for animations/colours
-	classList.push(
-		setting === "default" && letter === ""
-			? styles.Tile__Default
-			: setting === "default"
-			? styles.Tile__Filled
-			: setting === "notPresent"
-			? styles.Tile__NotPresent
-			: setting === "present"
-			? styles.Tile__Present
-			: styles.Tile__Correct
-	);
+	console.log(classList);
 	return classList.join(" ");
 };
 
@@ -64,16 +99,4 @@ export const getLetterClass = (tileNumber, setting, styles) => {
 		setting === "default" ? styles.Letter : styles.Letter__Flipped
 	);
 	return classList.join(" ");
-};
-
-export const getTileTheme = (theme) => {
-	const bgCol = theme === "light" ? "white" : "black";
-	const letterCol = theme === "light" ? "black" : "black";
-	const blankTileCol = theme === "light" ? "white" : "darkgrey";
-
-	const tileTheme = {
-		backgroundColor: bgCol,
-		color: letterCol,
-	};
-	return tileTheme;
 };

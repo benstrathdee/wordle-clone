@@ -3,11 +3,8 @@ import styles from "./GameGrid.module.scss";
 import Line from "../Line";
 import { words } from "./../../words/words";
 import { GuessContext } from "../../context/GuessContext/GuessContext";
-import {
-	getDateCode,
-	setCookie,
-	getCookie,
-} from "../../functions/gridFunctions";
+import { getDateCode } from "../../functions/gridFunctions";
+import { setCookie, getCookie } from "../../functions/utilities";
 
 const GameGrid = ({ rows, columns, theme }) => {
 	const {

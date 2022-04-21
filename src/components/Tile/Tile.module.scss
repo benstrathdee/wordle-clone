@@ -1,26 +1,32 @@
-$tile-blank: black;
-$tile-filled: rgb(75, 75, 75);
+$tile-blank: white;
+$tile-blank-dark: black;
+$tile-filled: gray;
+$tile-filled-dark: rgb(75, 75, 75);
 $tile-notpresent: rgb(53, 53, 53);
-$tile-present: #b59f3b;
-$tile-correct: #538d4e;
+$tile-notpresent-dark: black;
+$tile-present: #f1d453;
+$tile-present-dark: #b59f3b;
+$tile-correct: #6fb968;
+$tile-correct-dark: #538d4e;
 
 $flip-time: 0.5s;
 $pulse-time: 0.1s;
 $delay-modifier: 0.2s;
 
-@mixin tileDelay($number-modifier) {
-	@extend .Tile;
+@mixin tileDelay($parent, $number-modifier) {
+	@extend .#{$parent};
 	transition: all $flip-time linear $number-modifier * $delay-modifier,
 		background-color 0s $number-modifier * $delay-modifier + 0.5 *
 			$flip-time;
 }
 
-.Tile {
+.TileLight {
 	display: flex;
 	justify-content: center;
 	align-items: center;
 
 	border: 2px solid gray;
+	color: white;
 
 	min-width: 7vh;
 	min-height: 7vh;
@@ -32,27 +38,26 @@ $delay-modifier: 0.2s;
 	font-size: xx-large;
 
 	&_DelayZero {
-		@include tileDelay(0);
+		@include tileDelay(TileLight, 0);
 	}
 	&_DelayOne {
-		@include tileDelay(1);
+		@include tileDelay(TileLight, 1);
 	}
 	&_DelayTwo {
-		@include tileDelay(2);
+		@include tileDelay(TileLight, 2);
 	}
 	&_DelayThree {
-		@include tileDelay(3);
+		@include tileDelay(TileLight, 3);
 	}
 	&_DelayFour {
-		@include tileDelay(4);
+		@include tileDelay(TileLight, 4);
 	}
 	&__Default {
 		background-color: $tile-blank;
 		transition: all $flip-time linear, background-color 0s;
 	}
 	&__Filled {
-		@extend .Tile__Default;
-		color: white;
+		@extend .TileLight__Default;
 		background-color: $tile-filled;
 		animation: pulse $pulse-time linear;
 		@keyframes pulse {
@@ -68,19 +73,58 @@ $delay-modifier: 0.2s;
 		}
 	}
 	&__NotPresent {
-		@extend .Tile;
-		color: white;
+		@extend .TileLight;
 		transform: scaleY(-1);
 		-webkit-transform: scaleY(-1);
 		background-color: $tile-notpresent;
 	}
 	&__Present {
-		@extend .Tile__NotPresent;
+		@extend .TileLight__NotPresent;
 		background-color: $tile-present;
 	}
 	&__Correct {
-		@extend .Tile__NotPresent;
+		@extend .TileLight__NotPresent;
 		background-color: $tile-correct;
+	}
+}
+
+.TileDark {
+	@extend .TileLight;
+	&_DelayZero {
+		@include tileDelay(TileDark, 0);
+	}
+	&_DelayOne {
+		@include tileDelay(TileDark, 1);
+	}
+	&_DelayTwo {
+		@include tileDelay(TileDark, 2);
+	}
+	&_DelayThree {
+		@include tileDelay(TileDark, 3);
+	}
+	&_DelayFour {
+		@include tileDelay(TileDark, 4);
+	}
+	&__Default {
+		@extend .TileLight__Default;
+		background-color: $tile-blank-dark;
+	}
+	&__Filled {
+		@extend .TileLight__Filled;
+		background-color: $tile-filled-dark;
+	}
+	&__NotPresent {
+		@extend .TileLight__NotPresent;
+		color: white;
+		background-color: $tile-notpresent-dark;
+	}
+	&__Present {
+		@extend .TileDark__NotPresent;
+		background-color: $tile-present-dark;
+	}
+	&__Correct {
+		@extend .TileDark__NotPresent;
+		background-color: $tile-correct-dark;
 	}
 }
 
