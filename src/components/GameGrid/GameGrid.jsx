@@ -3,81 +3,91 @@ import styles from "./GameGrid.module.scss";
 import Line from "../Line";
 import { words } from "./../../words/words";
 import { GuessContext } from "../../context/GuessContext/GuessContext";
+import {
+	getDateCode,
+	setCookie,
+	getCookie,
+} from "../../functions/gridFunctions";
 
-const GameGrid = () => {
-	const { currentGuess, setCurrentGuess, prevGuesses, setPrevGuesses } =
-		useContext(GuessContext);
+const GameGrid = ({ rows, columns }) => {
+	const {
+		currentGuess,
+		setCurrentGuess,
+		prevGuesses,
+		setPrevGuesses,
+		setWordOfDay,
+	} = useContext(GuessContext);
 
-	// Reference for valid character input
-	const alphabet = "abcdefghijklmnopqrstuvwxyz".split("");
+	useEffect(() => {
+		// On first load, check if player has a stored date code
+		// If not present or not today's code, generate and
+		// store/update locally, reset game board
+		const dateCode = getDateCode();
+		if (!localStorage.dateCode || getCookie("dateCode") !== dateCode) {
+			setCurrentGuess([]);
+			setPrevGuesses([]);
+			setCookie("dateCode", dateCode);
+		}
+		// set the word of the day
+		setWordOfDay(words[dateCode].split(""));
+	}, []);
 
 	useEffect(() => {
 		// These things happen any time any of the state values change
 
 		// Start keyboard input
 		window.addEventListener("keydown", handleKeydown);
+		// Set state values in cookie
+		setCookie("currentGuess", currentGuess);
+		setCookie("prevGuesses", prevGuesses);
 
-		// Set state values in local storage
-		localStorage.currentGuess = JSON.stringify(currentGuess);
-		localStorage.prevGuesses = JSON.stringify(prevGuesses);
-
-		// remove keyboard listener when done
 		return () => {
+			// remove keyboard listener when done
 			window.removeEventListener("keydown", handleKeydown);
 		};
 	}, [currentGuess, prevGuesses]);
 
 	const handleKeydown = (e) => {
-		if (!e.repeat && alphabet.includes(e.key)) {
-			// if the key is an un-repeated alphabet character,
-			// add it to the current guess
-			if (prevGuesses.length < 6) {
-				setCurrentGuess((currentGuess) =>
-					currentGuess.length < 5
-						? [...currentGuess, e.key]
-						: currentGuess
-				);
-			}
-		} else if (
-			e.key === "Enter" &&
-			prevGuesses.length < 6 &&
-			currentGuess.length === 5 &&
-			words.includes(currentGuess.join(""))
+		// Reference for valid character input
+		const alphabet = "abcdefghijklmnopqrstuvwxyz".split("");
+		if (
+			alphabet.includes(e.key) &&
+			prevGuesses.length < rows &&
+			!e.repeat
 		) {
-			// if the key is "Enter", and a full guess has been input,
-			// and the guess is a valid word, add it to the list of guesses,
-			// and move to next empty guess unless all 6 guesses made
-			setPrevGuesses((prevGuesses) => [...prevGuesses, currentGuess]);
-			setCurrentGuess("");
+			// if the key is an un-repeated alphabet character,
+			// and the guess isn't full, add it to the current guess
+			setCurrentGuess((currentGuess) =>
+				currentGuess.length < columns
+					? [...currentGuess, e.key]
+					: currentGuess
+			);
+		} else if (
+			e.key === "Enter" && // if the key is "Enter"
+			prevGuesses.length < rows && // and the board isn't full
+			currentGuess.length === columns // and the guess is complete
+		) {
+			if (words.includes(currentGuess.join(""))) {
+				// if the word is valid set it on the board, move to next line
+				setPrevGuesses((prevGuesses) => [...prevGuesses, currentGuess]);
+				setCurrentGuess("");
+			} else {
+				// TODO
+			}
 		} else if (e.key === "Backspace" && currentGuess.length > 0) {
 			// if the guess has at least one input, remove the most recent
-			// input
 			setCurrentGuess((currentGuess) => currentGuess.slice(0, -1));
 		}
-	};
-
-	const resetGame = () => {
-		setCurrentGuess([]);
-		setPrevGuesses([]);
 	};
 
 	return (
 		<>
 			<h1>Definitely NOT Wordle</h1>
 			<div className={styles.Wrapper}>
-				<Line rowNumber={0} />
-				<Line rowNumber={1} />
-				<Line rowNumber={2} />
-				<Line rowNumber={3} />
-				<Line rowNumber={4} />
-				<Line rowNumber={5} />
+				{Array.from(Array(rows)).map((e, i) => (
+					<Line key={"line" + i} rowNumber={i} columns={columns} />
+				))}
 			</div>
-			{/* <div>Current Guess: {currentGuess}</div>
-			<div>
-				All Guesses:{" "}
-				{prevGuesses.map((guess) => guess.join("")).join(", ")}
-			</div> */}
-			<button onClick={resetGame}>Clear</button>
 		</>
 	);
 };

@@ -2,27 +2,26 @@ import React, { useContext } from "react";
 import { GuessContext } from "../../context/GuessContext/GuessContext";
 import Tile from "../Tile";
 import styles from "./Line.module.scss";
+import { getLetter, getTileSetting } from "../../functions/lineFunctions";
 
-const Line = ({ rowNumber }) => {
-	const { currentGuess, prevGuesses } = useContext(GuessContext);
-
-	const getLetter = (tileNumber) => {
-		if (prevGuesses.length === rowNumber) {
-			return currentGuess[tileNumber];
-		} else {
-			return prevGuesses[rowNumber] === undefined
-				? ""
-				: prevGuesses[rowNumber][tileNumber];
-		}
-	};
+const Line = ({ rowNumber, columns }) => {
+	const { currentGuess, prevGuesses, wordOfDay } = useContext(GuessContext);
 
 	return (
 		<div className={styles.Line}>
-			<Tile rowNumber={rowNumber} colNumber={0} letter={getLetter(0)} />
-			<Tile rowNumber={rowNumber} colNumber={1} letter={getLetter(1)} />
-			<Tile rowNumber={rowNumber} colNumber={2} letter={getLetter(2)} />
-			<Tile rowNumber={rowNumber} colNumber={3} letter={getLetter(3)} />
-			<Tile rowNumber={rowNumber} colNumber={4} letter={getLetter(4)} />
+			{Array.from(Array(columns)).map((e, i) => (
+				<Tile
+					key={"tile" + i}
+					tileNumber={i}
+					letter={getLetter(rowNumber, i, currentGuess, prevGuesses)}
+					setting={getTileSetting(
+						rowNumber,
+						i,
+						prevGuesses,
+						wordOfDay
+					)}
+				/>
+			))}
 		</div>
 	);
 };

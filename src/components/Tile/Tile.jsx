@@ -1,23 +1,13 @@
 import React from "react";
 import styles from "./Tile.module.scss";
+import { getTileClass, getLetterClass } from "../../functions/tileFunctions";
 
-const Tile = ({ rowNumber, colNumber, letter = "", setting = "default" }) => {
-	const tileClass =
-		letter === ""
-			? styles.Tile__Default
-			: setting === "default"
-			? styles.Tile__Filled
-			: setting === "notPresent"
-			? styles.Tile__Filled
-			: setting === "present"
-			? styles.Tile__Present
-			: styles.Tile__Correct;
-	const letterClass =
-		setting === "default" ? styles.Letter : styles.Letter__Flipped;
-
+const Tile = ({ tileNumber, letter = "", setting = "default" }) => {
 	return (
-		<span className={tileClass} data-row={rowNumber} data-col={colNumber}>
-			<span className={letterClass}>{letter.toUpperCase()}</span>
+		<span className={getTileClass(tileNumber, letter, setting, styles)}>
+			<span className={getLetterClass(tileNumber, setting, styles)}>
+				{letter.toUpperCase()}
+			</span>
 		</span>
 	);
 };
