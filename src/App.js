@@ -7,20 +7,20 @@ import { getCookie, setCookie } from "./functions/utilities";
 
 function App() {
 	const [theme, setTheme] = useState(
-		localStorage.theme ? getCookie("theme") : "light"
+		localStorage.theme ? getCookie("theme") : "Light"
 	);
-
-	const handleThemeChange = (e) => {
-		setTheme(e.target.value);
-	};
 
 	useEffect(() => {
 		setCookie("theme", theme);
 	}, [theme]);
 
 	const themeStyle = {
-		color: theme === "light" ? "black" : "white",
-		backgroundColor: theme === "light" ? "white" : "black",
+		color: theme === "Light" ? "black" : "white",
+		backgroundColor: theme === "Light" ? "white" : "black",
+	};
+
+	const handleThemeChange = (e) => {
+		setTheme(e.target.value);
 	};
 
 	return (
@@ -32,8 +32,8 @@ function App() {
 			<button onClick={resetGame}>Reset</button>
 			<label htmlFor="theme">Theme</label>
 			<select name="theme" id="theme" onChange={handleThemeChange}>
-				<option value="light">Light Theme</option>
-				<option value="dark">Dark Theme</option>
+				<option value="Light">Light Theme</option>
+				<option value="Dark">Dark Theme</option>
 			</select>
 		</div>
 		// Modal for winning
