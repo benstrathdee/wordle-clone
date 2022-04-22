@@ -2,12 +2,7 @@ import React from "react";
 import styles from "./GridTile.module.scss";
 import { getTileClass, getLetterClass } from "../../functions/tileFunctions";
 
-const GridTile = ({
-	tileNumber,
-	letter = "",
-	setting = "default",
-	theme = "light",
-}) => {
+const GridTile = ({ tileNumber, letter = "", setting, theme }) => {
 	return (
 		<span
 			className={getTileClass(tileNumber, letter, setting, styles, theme)}
