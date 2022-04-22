@@ -14,10 +14,24 @@
 	z-index: 50;
 
 	&__Invis {
+		@extend .Wrapper;
 		opacity: 0;
 		z-index: -50;
 	}
 }
 .Box {
-	background-color: white;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	&__Light {
+		@extend .Box;
+		background-color: whitesmoke;
+		color: black;
+	}
+	&__Dark {
+		@extend .Box;
+		background-color: rgb(50, 50, 50);
+		color: white;
+	}
 }
