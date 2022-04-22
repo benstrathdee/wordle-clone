@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { GuessContext } from "../../context/GuessContext/GuessContext";
+import { GuessContext } from "../../context/GuessContext";
 import GridTile from "../GridTile";
 import styles from "./GridLine.module.scss";
 import { getLetter, getTileSetting } from "../../functions/lineFunctions";

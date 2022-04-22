@@ -2,7 +2,7 @@ import { useEffect, useContext } from "react";
 import styles from "./Grid.module.scss";
 import GridLine from "../GridLine";
 import { words } from "../../words/words";
-import { GuessContext } from "../../context/GuessContext/GuessContext";
+import { GuessContext } from "../../context/GuessContext";
 import { getDateCode } from "../../functions/gridFunctions";
 import { setCookie, getCookie } from "../../functions/utilities";
 
