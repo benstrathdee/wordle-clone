@@ -1,12 +1,12 @@
 import { useEffect, useContext } from "react";
-import styles from "./GameGrid.module.scss";
-import Line from "../Line";
-import { words } from "./../../words/words";
+import styles from "./Grid.module.scss";
+import GridLine from "../GridLine";
+import { words } from "../../words/words";
 import { GuessContext } from "../../context/GuessContext/GuessContext";
 import { getDateCode } from "../../functions/gridFunctions";
 import { setCookie, getCookie } from "../../functions/utilities";
 
-const GameGrid = ({ rows, columns, theme }) => {
+const Grid = ({ rows, columns, theme }) => {
 	const {
 		currentGuess,
 		setCurrentGuess,
@@ -57,6 +57,7 @@ const GameGrid = ({ rows, columns, theme }) => {
 		) {
 			if (alphabet.includes(e.key)) {
 				// if the key is an alphabet character,
+				// add character to current row
 				setCurrentGuess((currentGuess) =>
 					currentGuess.length < columns
 						? [...currentGuess, e.key]
@@ -87,7 +88,7 @@ const GameGrid = ({ rows, columns, theme }) => {
 		<>
 			<div className={styles.Wrapper}>
 				{Array.from(Array(rows)).map((e, i) => (
-					<Line
+					<GridLine
 						key={"line" + i}
 						rowNumber={i}
 						columns={columns}
@@ -99,4 +100,4 @@ const GameGrid = ({ rows, columns, theme }) => {
 	);
 };
 
-export default GameGrid;
+export default Grid;

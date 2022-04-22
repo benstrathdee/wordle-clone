@@ -1,8 +1,8 @@
 import React from "react";
-import styles from "./Tile.module.scss";
+import styles from "./GridTile.module.scss";
 import { getTileClass, getLetterClass } from "../../functions/tileFunctions";
 
-const Tile = ({
+const GridTile = ({
 	tileNumber,
 	letter = "",
 	setting = "default",
@@ -19,4 +19,4 @@ const Tile = ({
 	);
 };
 
-export default Tile;
+export default GridTile;
