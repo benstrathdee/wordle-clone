@@ -1,32 +1,33 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import styles from "./Home.module.scss";
-import { setCookie, getCookie } from "../../functions/utilities";
 import Grid from "./../Grid";
 import Modal from "./../Modal";
+import Settings from "../Settings";
+import Stats from "../Stats";
+import Info from "../Info";
 import { GuessProvider } from "./../../context/GuessContext";
 import { StatsProvider } from "./../../context/StatsContext";
-import { resetGame } from "./../../functions/settings";
+import { SettingsContext } from "../../context/SettingsContext";
+import { FaCog, FaInfoCircle } from "react-icons/fa";
+import { MdLeaderboard } from "react-icons/md";
 
 const Home = () => {
-	const [theme, setTheme] = useState(
-		localStorage.theme ? getCookie("theme") : "Light"
-	);
+	const { setModalShow, setModalContent, theme } =
+		useContext(SettingsContext);
 
-	useEffect(() => {
-		setCookie("theme", theme);
-	}, [theme]);
-
-	const themeStyle = {
-		color: theme === "Light" ? "black" : "white",
-		backgroundColor: theme === "Light" ? "white" : "black",
+	const openModal = (element) => {
+		setModalContent(element);
+		setModalShow(true);
 	};
 
-	const handleThemeChange = (e) => {
-		setTheme(e.target.value);
-	};
 	return (
-		<div className={styles.Wrapper} style={themeStyle}>
-			<h1 style={themeStyle}>Definitely NOT Wordle</h1>
+		<div className={styles[`Wrapper__${theme}`]}>
+			<div className={styles.Wrapper__Icons}>
+				<FaInfoCircle onClick={() => openModal(<Info />)} />
+				<MdLeaderboard onClick={() => openModal(<Stats />)} />
+				<FaCog onClick={() => openModal(<Settings />)} />
+			</div>
+			<h1>Definitely NOT Wordle</h1>
 			<StatsProvider>
 				<GuessProvider>
 					<Grid rows={6} columns={5} theme={theme} />
@@ -35,17 +36,6 @@ const Home = () => {
 					<div>Test</div>
 				</Modal>
 			</StatsProvider>
-			<button onClick={resetGame}>Reset</button>
-			<label htmlFor="theme">Theme</label>
-			<select
-				name="theme"
-				id="theme"
-				defaultValue={theme}
-				onChange={handleThemeChange}
-			>
-				<option value="Light">Light Theme</option>
-				<option value="Dark">Dark Theme</option>
-			</select>
 		</div>
 	);
 };

@@ -6,4 +6,21 @@
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
+	&__Light {
+		@extend .Wrapper;
+		color: black;
+		background-color: white;
+	}
+	&__Dark {
+		@extend .Wrapper;
+		color: white;
+		background-color: black;
+	}
+	&__Icons {
+		width: 80%;
+		display: flex;
+		justify-content: space-between;
+
+		font-size: xx-large;
+	}
 }
