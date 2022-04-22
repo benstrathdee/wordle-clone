@@ -7,8 +7,10 @@ import { getLetter, getTileSetting } from "../../functions/lineFunctions";
 const GridLine = ({ rowNumber, columns, theme }) => {
 	const { currentGuess, prevGuesses, wordOfDay } = useContext(GuessContext);
 
+	const wrapperStyle = { gridTemplateColumns: `repeat(${columns}, 1fr)` };
+
 	return (
-		<div className={styles.Line}>
+		<div className={styles.Wrapper} style={wrapperStyle}>
 			{Array.from(Array(columns)).map((e, i) => (
 				<GridTile
 					key={"tile" + i}

@@ -84,9 +84,11 @@ const Grid = ({ rows, columns, theme }) => {
 		}
 	};
 
+	const wrapperStyle = { gridTemplateRows: `repeat(${rows}, 1fr)` };
+
 	return (
 		<>
-			<div className={styles.Wrapper}>
+			<div className={styles.Wrapper} style={wrapperStyle}>
 				{Array.from(Array(rows)).map((e, i) => (
 					<GridLine
 						key={"line" + i}
