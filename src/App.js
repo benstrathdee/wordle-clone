@@ -22,16 +22,14 @@ function App() {
 		backgroundColor: theme === "Light" ? "white" : "black",
 	};
 
-	// const modalClass = showModal ? styles
-
 	const handleThemeChange = (e) => {
 		setTheme(e.target.value);
 	};
 
 	return (
-		<div id="page" style={themeStyle}>
-			<h1 style={themeStyle}>Definitely NOT Wordle</h1>
-			<SettingsProvider>
+		<SettingsProvider>
+			<div id="page" style={themeStyle}>
+				<h1 style={themeStyle}>Definitely NOT Wordle</h1>
 				<StatsProvider>
 					<GuessProvider>
 						<Grid rows={6} columns={5} theme={theme} />
@@ -40,15 +38,19 @@ function App() {
 						<div>Test</div>
 					</Modal>
 				</StatsProvider>
-			</SettingsProvider>
-			<button onClick={resetGame}>Reset</button>
-			<label htmlFor="theme">Theme</label>
-			<select name="theme" id="theme" onChange={handleThemeChange}>
-				<option value="Light">Light Theme</option>
-				<option value="Dark">Dark Theme</option>
-			</select>
-		</div>
-		// Modal for winning
+				<button onClick={resetGame}>Reset</button>
+				<label htmlFor="theme">Theme</label>
+				<select
+					name="theme"
+					id="theme"
+					defaultValue={theme}
+					onChange={handleThemeChange}
+				>
+					<option value="Light">Light Theme</option>
+					<option value="Dark">Dark Theme</option>
+				</select>
+			</div>
+		</SettingsProvider>
 	);
 }
 

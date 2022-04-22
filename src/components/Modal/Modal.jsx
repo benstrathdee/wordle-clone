@@ -1,10 +1,16 @@
-import React from "react";
+import React, { useContext } from "react";
+import { SettingsContext } from "../../context/SettingsContext";
 import styles from "./Modal.module.scss";
 
-const Modal = ({ children }) => {
+const Modal = () => {
+	const { modalShow, setModalShow, modalContent } =
+		useContext(SettingsContext);
+
+	const modalClass = modalShow ? styles.Wrapper : styles.Wrapper__Invis;
+
 	return (
-		<div className={styles.Wrapper}>
-			<div className={styles.Main}></div>
+		<div className={modalClass} onClick={() => setModalShow(false)}>
+			<div className={styles.Box}>{modalContent}</div>
 		</div>
 	);
 };
