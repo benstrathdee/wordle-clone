@@ -4,7 +4,7 @@ import Tile from "../Tile";
 import styles from "./Line.module.scss";
 import { getLetter, getTileSetting } from "../../functions/lineFunctions";
 
-const Line = ({ rowNumber, columns }) => {
+const Line = ({ rowNumber, columns, theme }) => {
 	const { currentGuess, prevGuesses, wordOfDay } = useContext(GuessContext);
 
 	return (
@@ -20,6 +20,7 @@ const Line = ({ rowNumber, columns }) => {
 						prevGuesses,
 						wordOfDay
 					)}
+					theme={theme}
 				/>
 			))}
 		</div>
