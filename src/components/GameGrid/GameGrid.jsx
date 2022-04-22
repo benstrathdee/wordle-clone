@@ -48,32 +48,38 @@ const GameGrid = ({ rows, columns, theme }) => {
 		// Reference for valid character input
 		const alphabet = "abcdefghijklmnopqrstuvwxyz".split("");
 		if (
-			alphabet.includes(e.key) &&
-			prevGuesses.length < rows &&
-			!e.repeat
+			!e.metaKey && // no modifier keys held
+			!e.shiftKey &&
+			!e.ctrlKey &&
+			!e.altKey &&
+			!e.repeat && // no repeating
+			prevGuesses.length < rows // game board isn't full
 		) {
-			// if the key is an un-repeated alphabet character,
-			// and the guess isn't full, add it to the current guess
-			setCurrentGuess((currentGuess) =>
-				currentGuess.length < columns
-					? [...currentGuess, e.key]
-					: currentGuess
-			);
-		} else if (
-			e.key === "Enter" && // if the key is "Enter"
-			prevGuesses.length < rows && // and the board isn't full
-			currentGuess.length === columns // and the guess is complete
-		) {
-			if (words.includes(currentGuess.join(""))) {
-				// if the word is valid set it on the board, move to next line
-				setPrevGuesses((prevGuesses) => [...prevGuesses, currentGuess]);
-				setCurrentGuess("");
-			} else {
-				// TODO
+			if (alphabet.includes(e.key)) {
+				// if the key is an alphabet character,
+				setCurrentGuess((currentGuess) =>
+					currentGuess.length < columns
+						? [...currentGuess, e.key]
+						: currentGuess
+				);
+			} else if (
+				e.key === "Enter" && // if the key is "Enter"
+				currentGuess.length === columns // and the guess is complete
+			) {
+				if (words.includes(currentGuess.join(""))) {
+					// if the word is valid set it on the board, move to next line
+					setPrevGuesses((prevGuesses) => [
+						...prevGuesses,
+						currentGuess,
+					]);
+					setCurrentGuess("");
+				} else {
+					// TODO
+				}
+			} else if (e.key === "Backspace" && currentGuess.length > 0) {
+				// if the guess has at least one input, remove the most recent
+				setCurrentGuess((currentGuess) => currentGuess.slice(0, -1));
 			}
-		} else if (e.key === "Backspace" && currentGuess.length > 0) {
-			// if the guess has at least one input, remove the most recent
-			setCurrentGuess((currentGuess) => currentGuess.slice(0, -1));
 		}
 	};
 
