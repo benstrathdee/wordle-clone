@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
 import "./App.css";
-import GameGrid from "./components/GameGrid/GameGrid";
-import { GuessProvider } from "./context/GuessContext/GuessContext";
+import Grid from "./components/Grid/Grid";
+import Modal from "./components/Modal/Modal";
+import { GuessProvider } from "./context/GuessContext";
+import { SettingsProvider } from "./context/SettingsContext";
+import { StatsProvider } from "./context/StatsContext";
 import { resetGame } from "./functions/settings";
 import { getCookie, setCookie } from "./functions/utilities";
 
@@ -19,6 +22,8 @@ function App() {
 		backgroundColor: theme === "Light" ? "white" : "black",
 	};
 
+	// const modalClass = showModal ? styles
+
 	const handleThemeChange = (e) => {
 		setTheme(e.target.value);
 	};
@@ -26,9 +31,16 @@ function App() {
 	return (
 		<div id="page" style={themeStyle}>
 			<h1 style={themeStyle}>Definitely NOT Wordle</h1>
-			<GuessProvider>
-				<GameGrid rows={6} columns={5} theme={theme} />
-			</GuessProvider>
+			<SettingsProvider>
+				<StatsProvider>
+					<GuessProvider>
+						<Grid rows={6} columns={5} theme={theme} />
+					</GuessProvider>
+					<Modal>
+						<div>Test</div>
+					</Modal>
+				</StatsProvider>
+			</SettingsProvider>
 			<button onClick={resetGame}>Reset</button>
 			<label htmlFor="theme">Theme</label>
 			<select name="theme" id="theme" onChange={handleThemeChange}>
