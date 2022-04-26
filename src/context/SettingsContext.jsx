@@ -6,6 +6,10 @@ export const SettingsContext = createContext();
 export const SettingsProvider = ({ children }) => {
 	const [modalShow, setModalShow] = useState(false);
 	const [modalContent, setModalContent] = useState(null);
+	const openModal = (element) => {
+		setModalContent(element);
+		setModalShow(true);
+	};
 
 	const [theme, setTheme] = useState(
 		localStorage.theme ? getCookie("theme") : "Light"
@@ -14,6 +18,19 @@ export const SettingsProvider = ({ children }) => {
 	useEffect(() => {
 		setCookie("theme", theme);
 	}, [theme]);
+
+	// const [columns, setColumns] = useState(
+	// 	localStorage.columns ? getCookie("columns") : 5
+	// );
+	// const [rows, setRows] = useState(localStorage.rows ? getCookie("rows") : 6);
+
+	// useEffect(() => {
+	// 	setCookie("columns", columns);
+	// }, [columns]);
+
+	// useEffect(() => {
+	// 	setCookie("rows", rows);
+	// }, [rows]);
 
 	const settingsTemplate = {};
 	const [settings, setSettings] = useState(
@@ -25,10 +42,15 @@ export const SettingsProvider = ({ children }) => {
 		setSettings,
 		modalShow,
 		setModalShow,
+		openModal,
 		modalContent,
 		setModalContent,
 		theme,
 		setTheme,
+		// columns,
+		// setColumns,
+		// rows,
+		// setRows,
 	};
 	return (
 		<SettingsContext.Provider value={data}>
