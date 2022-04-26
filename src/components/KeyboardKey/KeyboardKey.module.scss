@@ -1,13 +1,9 @@
-$tile-blank: white;
-$tile-blank-dark: black;
-$tile-filled: gray;
-$tile-filled-dark: rgb(75, 75, 75);
-$tile-notpresent: rgb(53, 53, 53);
-$tile-notpresent-dark: black;
-$tile-present: #f1d453;
-$tile-present-dark: #b59f3b;
-$tile-correct: #6fb968;
-$tile-correct-dark: #538d4e;
+$key-default: white;
+$key-default-dark: black;
+$key-notpresent: gray;
+$key-notpresent-dark: gray;
+$key-present: #f1d453;
+$key-present-dark: #b59f3b;
 
 .Light,
 .Dark {
@@ -23,25 +19,37 @@ $tile-correct-dark: #538d4e;
 	max-width: 60px;
 	max-height: 70px;
 	margin: 2px;
+
+	font-size: 3vw;
+
+	user-select: none;
+	-moz-user-select: none;
+	-webkit-user-select: none;
+
+	cursor: pointer;
 	&__Default {
-		background-color: $tile-blank;
+		@extend .Light;
+		background-color: $key-default;
 	}
 	&__NotPresent {
-		background-color: $tile-notpresent;
+		@extend .Light;
+		color: white;
+		background-color: $key-notpresent;
 	}
 	&__Present {
-		background-color: $tile-present;
+		@extend .Light__NotPresent;
+		background-color: $key-present;
 	}
 }
 
 .Dark {
 	&__Default {
-		background-color: $tile-blank-dark;
+		background-color: $key-default-dark;
 	}
 	&__NotPresent {
-		background-color: $tile-notpresent-dark;
+		background-color: $key-notpresent-dark;
 	}
 	&__Present {
-		background-color: $tile-present-dark;
+		background-color: $key-present-dark;
 	}
 }

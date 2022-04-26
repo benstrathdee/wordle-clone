@@ -1,5 +1,5 @@
-import { createContext, useState } from "react";
-import { getCookie } from "../functions/utilities";
+import { createContext, useEffect, useState } from "react";
+import { getCookie, setCookie } from "../functions/utilities";
 import { words } from "../words/words";
 
 export const GuessContext = createContext();
@@ -13,28 +13,36 @@ export const GuessProvider = ({ children }) => {
 	const [prevGuesses, setPrevGuesses] = useState(
 		localStorage.prevGuesses ? getCookie("prevGuesses") : []
 	);
+	const [gameOver, setGameOver] = useState(
+		localStorage.gameOver ? getCookie("gameOver") : false
+	);
 
+	useEffect(() => {
+		setCookie("gameOver", gameOver);
+	}, [gameOver]);
 	// Set on page load depending on dateCode
 	const [wordOfDay, setWordOfDay] = useState([]);
 
 	const doInput = (char, maxGuess) => {
 		// add character to current row
-		setCurrentGuess((currentGuess) =>
-			currentGuess.length < maxGuess
-				? [...currentGuess, char]
-				: currentGuess
-		);
+		if (!gameOver) {
+			setCurrentGuess((currentGuess) =>
+				currentGuess.length < maxGuess
+					? [...currentGuess, char]
+					: currentGuess
+			);
+		}
 	};
 
 	const doSubmit = () => {
-		console.log("trying to submit");
 		if (words.includes(currentGuess.join(""))) {
 			// if the word is valid set it on the board, move to next line
 			setPrevGuesses((prevGuesses) => [...prevGuesses, currentGuess]);
+			if (currentGuess.join("") === wordOfDay.join("")) {
+				setGameOver(true);
+				// do game over things
+			}
 			setCurrentGuess("");
-		} else {
-			// TODO
-			console.log("No valid word");
 		}
 	};
 
@@ -59,10 +67,10 @@ export const GuessProvider = ({ children }) => {
 		// correct/present/not present in the day's word
 		if (rowNumber > prevGuesses.length) return "Default";
 		if (rowNumber === prevGuesses.length) return "Filled";
-		if (wordOfDay.includes(prevGuesses[rowNumber][tileNumber]))
-			return "Present";
 		if (prevGuesses[rowNumber][tileNumber] === wordOfDay[tileNumber])
 			return "Correct";
+		if (wordOfDay.includes(prevGuesses[rowNumber][tileNumber]))
+			return "Present";
 		else return "NotPresent";
 	};
 
@@ -117,6 +125,8 @@ export const GuessProvider = ({ children }) => {
 		setPrevGuesses,
 		wordOfDay,
 		setWordOfDay,
+		gameOver,
+		setGameOver,
 		doInput,
 		doSubmit,
 		doBackspace,

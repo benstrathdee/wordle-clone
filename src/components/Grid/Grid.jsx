@@ -3,16 +3,17 @@ import styles from "./Grid.module.scss";
 import GridLine from "../GridLine";
 import { words } from "../../words/words";
 import { GuessContext } from "../../context/GuessContext";
-import { getDateCode } from "../../functions/grid";
-import { setCookie, getCookie } from "../../functions/utilities";
+import { setCookie, getCookie, getDateCode } from "../../functions/utilities";
 
-const Grid = ({ rows, columns, theme }) => {
+const Grid = ({ rows, columns }) => {
 	const {
 		currentGuess,
 		setCurrentGuess,
 		prevGuesses,
 		setPrevGuesses,
 		setWordOfDay,
+		gameOver,
+		setGameOver,
 		doInput,
 		doSubmit,
 		doBackspace,
@@ -27,6 +28,7 @@ const Grid = ({ rows, columns, theme }) => {
 			setCurrentGuess([]);
 			setPrevGuesses([]);
 			setCookie("dateCode", dateCode);
+			setCookie("gameOver", false);
 		}
 		// set the word of the day
 		setWordOfDay(words[dateCode].split(""));
