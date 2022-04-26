@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import styles from "./Home.module.scss";
 import Grid from "./../Grid";
+import Keyboard from "../Keyboard/Keyboard";
 import Modal from "./../Modal";
 import Settings from "../Settings";
 import Stats from "../Stats";
@@ -31,10 +32,9 @@ const Home = () => {
 			<StatsProvider>
 				<GuessProvider>
 					<Grid rows={6} columns={5} theme={theme} />
+					<Keyboard />
 				</GuessProvider>
-				<Modal>
-					<div>Test</div>
-				</Modal>
+				<Modal />
 			</StatsProvider>
 		</div>
 	);

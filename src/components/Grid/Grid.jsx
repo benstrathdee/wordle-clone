@@ -3,7 +3,7 @@ import styles from "./Grid.module.scss";
 import GridLine from "../GridLine";
 import { words } from "../../words/words";
 import { GuessContext } from "../../context/GuessContext";
-import { getDateCode } from "../../functions/gridFunctions";
+import { getDateCode } from "../../functions/grid";
 import { setCookie, getCookie } from "../../functions/utilities";
 
 const Grid = ({ rows, columns, theme }) => {
@@ -13,6 +13,9 @@ const Grid = ({ rows, columns, theme }) => {
 		prevGuesses,
 		setPrevGuesses,
 		setWordOfDay,
+		doInput,
+		doSubmit,
+		doBackspace,
 	} = useContext(GuessContext);
 
 	useEffect(() => {
@@ -56,30 +59,14 @@ const Grid = ({ rows, columns, theme }) => {
 			prevGuesses.length < rows // game board isn't full
 		) {
 			if (alphabet.includes(e.key)) {
-				// if the key is an alphabet character,
-				// add character to current row
-				setCurrentGuess((currentGuess) =>
-					currentGuess.length < columns
-						? [...currentGuess, e.key]
-						: currentGuess
-				);
+				doInput(e.key, columns);
 			} else if (
 				e.key === "Enter" && // if the key is "Enter"
 				currentGuess.length === columns // and the guess is complete
 			) {
-				if (words.includes(currentGuess.join(""))) {
-					// if the word is valid set it on the board, move to next line
-					setPrevGuesses((prevGuesses) => [
-						...prevGuesses,
-						currentGuess,
-					]);
-					setCurrentGuess("");
-				} else {
-					// TODO
-				}
+				doSubmit();
 			} else if (e.key === "Backspace" && currentGuess.length > 0) {
-				// if the guess has at least one input, remove the most recent
-				setCurrentGuess((currentGuess) => currentGuess.slice(0, -1));
+				doBackspace();
 			}
 		}
 	};
@@ -94,7 +81,6 @@ const Grid = ({ rows, columns, theme }) => {
 						key={"line" + i}
 						rowNumber={i}
 						columns={columns}
-						theme={theme}
 					/>
 				))}
 			</div>

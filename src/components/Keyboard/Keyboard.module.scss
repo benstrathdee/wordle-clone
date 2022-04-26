@@ -1,0 +1,13 @@
+.Wrapper {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+.Line {
+	min-width: 25vw;
+	max-width: 100vw;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}

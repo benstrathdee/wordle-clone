@@ -1,8 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
 import styles from "./GridTile.module.scss";
-import { getTileClass, getLetterClass } from "../../functions/tileFunctions";
+import { SettingsContext } from "../../context/SettingsContext";
+import { GuessContext } from "../../context/GuessContext";
 
-const GridTile = ({ tileNumber, letter = "", setting, theme }) => {
+const GridTile = ({ rowNumber, tileNumber }) => {
+	const { theme } = useContext(SettingsContext);
+	const { getTileLetter, getTileSetting, getTileClass, getLetterClass } =
+		useContext(GuessContext);
+	const letter = getTileLetter(rowNumber, tileNumber) ?? "";
+	const setting = getTileSetting(rowNumber, tileNumber);
+
 	return (
 		<span
 			className={getTileClass(tileNumber, letter, setting, styles, theme)}

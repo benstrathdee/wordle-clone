@@ -1,0 +1,47 @@
+$tile-blank: white;
+$tile-blank-dark: black;
+$tile-filled: gray;
+$tile-filled-dark: rgb(75, 75, 75);
+$tile-notpresent: rgb(53, 53, 53);
+$tile-notpresent-dark: black;
+$tile-present: #f1d453;
+$tile-present-dark: #b59f3b;
+$tile-correct: #6fb968;
+$tile-correct-dark: #538d4e;
+
+.Light,
+.Dark {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	border: 2px solid gray;
+	border-radius: 10%;
+
+	width: 6vw;
+	height: 7vw;
+	max-width: 60px;
+	max-height: 70px;
+	margin: 2px;
+	&__Default {
+		background-color: $tile-blank;
+	}
+	&__NotPresent {
+		background-color: $tile-notpresent;
+	}
+	&__Present {
+		background-color: $tile-present;
+	}
+}
+
+.Dark {
+	&__Default {
+		background-color: $tile-blank-dark;
+	}
+	&__NotPresent {
+		background-color: $tile-notpresent-dark;
+	}
+	&__Present {
+		background-color: $tile-present-dark;
+	}
+}

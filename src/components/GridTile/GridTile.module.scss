@@ -47,8 +47,8 @@ $delay-modifier: 0.2s;
 	min-height: 7vh;
 	width: 12vw;
 	height: 12vw;
-	max-width: 10vh;
-	max-height: 10vh;
+	max-width: 9vh;
+	max-height: 9vh;
 	&__Default {
 		@extend .Light;
 		background-color: $tile-blank;
