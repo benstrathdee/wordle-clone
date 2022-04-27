@@ -1,10 +1,14 @@
-import { createContext, useEffect, useState } from "react";
+import { wait } from "@testing-library/user-event/dist/utils";
+import { createContext, useContext, useEffect, useState } from "react";
 import { getCookie, setCookie } from "../functions/utilities";
 import { words } from "../words/words";
+import { SettingsContext } from "./SettingsContext";
+import GameEnd from "./../components/GameEnd";
 
 export const GuessContext = createContext();
 
 export const GuessProvider = ({ children }) => {
+	const { openModal } = useContext(SettingsContext);
 	// Get two state values from local storage if present,
 	// Set to blank if not present
 	const [currentGuess, setCurrentGuess] = useState(
@@ -13,6 +17,8 @@ export const GuessProvider = ({ children }) => {
 	const [prevGuesses, setPrevGuesses] = useState(
 		localStorage.prevGuesses ? getCookie("prevGuesses") : []
 	);
+	const [correctLetters, setCorrectLetters] = useState([]);
+	const [presentLetters, setPresentLetters] = useState([]);
 	const [gameOver, setGameOver] = useState(
 		localStorage.gameOver ? getCookie("gameOver") : false
 	);
@@ -20,6 +26,23 @@ export const GuessProvider = ({ children }) => {
 	useEffect(() => {
 		setCookie("gameOver", gameOver);
 	}, [gameOver]);
+
+	useEffect(() => {
+		const tempCorrect = [];
+		const tempPresent = [];
+		for (const guess of prevGuesses) {
+			for (const char of guess) {
+				if (guess.indexOf(char) === wordOfDay.indexOf(char)) {
+					tempCorrect.push(char);
+				} else if (wordOfDay.includes(char)) {
+					tempPresent.push(char);
+				}
+			}
+		}
+		setCorrectLetters(tempCorrect);
+		setPresentLetters(tempPresent);
+	}, [prevGuesses]);
+
 	// Set on page load depending on dateCode
 	const [wordOfDay, setWordOfDay] = useState([]);
 
@@ -34,15 +57,19 @@ export const GuessProvider = ({ children }) => {
 		}
 	};
 
-	const doSubmit = () => {
+	const doSubmit = async () => {
 		if (words.includes(currentGuess.join(""))) {
 			// if the word is valid set it on the board, move to next line
 			setPrevGuesses((prevGuesses) => [...prevGuesses, currentGuess]);
 			if (currentGuess.join("") === wordOfDay.join("")) {
 				setGameOver(true);
+				setCurrentGuess("");
+				await wait(2000);
+				openModal(<GameEnd />);
 				// do game over things
+			} else {
+				setCurrentGuess("");
 			}
-			setCurrentGuess("");
 		}
 	};
 
@@ -106,16 +133,9 @@ export const GuessProvider = ({ children }) => {
 		// sets the setting of the key based on if the character
 		// present/not present in the day's word
 		if (!prevGuesses.flat().includes(character)) return "Default";
-		if (
-			prevGuesses.flat().includes(character) &&
-			wordOfDay.includes(character)
-		)
-			return "Present";
-		if (
-			prevGuesses.flat().includes(character) &&
-			!wordOfDay.includes(character)
-		)
-			return "NotPresent";
+		if (correctLetters.includes(character)) return "Correct";
+		if (presentLetters.includes(character)) return "Present";
+		if (prevGuesses.flat().includes(character)) return "NotPresent";
 	};
 
 	const data = {
