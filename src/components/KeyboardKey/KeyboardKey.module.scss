@@ -1,9 +1,11 @@
 $key-default: white;
-$key-default-dark: black;
+$key-default-dark: gray;
 $key-notpresent: gray;
-$key-notpresent-dark: gray;
+$key-notpresent-dark: black;
 $key-present: #f1d453;
 $key-present-dark: #b59f3b;
+$key-correct: #6fb968;
+$key-correct-dark: #538d4e;
 
 .Light,
 .Dark {
@@ -40,6 +42,10 @@ $key-present-dark: #b59f3b;
 		@extend .Light__NotPresent;
 		background-color: $key-present;
 	}
+	&__Correct {
+		@extend .Light__NotPresent;
+		background-color: $key-correct;
+	}
 }
 
 .Dark {
@@ -51,5 +57,8 @@ $key-present-dark: #b59f3b;
 	}
 	&__Present {
 		background-color: $key-present-dark;
+	}
+	&__Correct {
+		background-color: $key-correct-dark;
 	}
 }
