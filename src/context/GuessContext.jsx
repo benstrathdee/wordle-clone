@@ -70,6 +70,8 @@ export const GuessProvider = ({ children }) => {
 			} else {
 				setCurrentGuess("");
 			}
+		} else {
+			// TODO - implement animation, toast on incorrect guess
 		}
 	};
 
@@ -131,11 +133,11 @@ export const GuessProvider = ({ children }) => {
 
 	const getKeySetting = (character) => {
 		// sets the setting of the key based on if the character
-		// present/not present in the day's word
+		// correct/present/not present in the day's word
 		if (!prevGuesses.flat().includes(character)) return "Default";
 		if (correctLetters.includes(character)) return "Correct";
 		if (presentLetters.includes(character)) return "Present";
-		if (prevGuesses.flat().includes(character)) return "NotPresent";
+		return "NotPresent";
 	};
 
 	const data = {
